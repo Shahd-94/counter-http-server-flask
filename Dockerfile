@@ -1,11 +1,11 @@
-FROM python:3.9
+FROM python:3.9-slim-buster
 
 WORKDIR /app
 
-COPY dependencies/requirements.txt .
-RUN pip install -r requirements.txt
+COPY ./dependencies/requirements.txt .
+RUN pip3 install -r requirements.txt
 
-COPY src/app.py .
-COPY data/counter.txt .
+COPY ./src/app.py .
+COPY ./data/counter.txt .
 
-CMD ["python", "app.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
